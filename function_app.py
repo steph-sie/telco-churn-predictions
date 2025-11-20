@@ -1,5 +1,7 @@
-import azure.functions as func
 import logging
+
+import azure.functions as func
+
 from prediction import make_prediction
 
 app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)
@@ -12,10 +14,17 @@ def predict(req: func.HttpRequest) -> func.HttpResponse:
     monthly = req.params.get('monthly')
     techsupport = req.params.get('techsupport')
     
+    prediction = make_prediction(
+    tenure=tenure,
+    MonthlyCharges=monthly,
+    TechSupport_yes=techsupport
+    )
+
     if tenure and monthly and techsupport:
-        return func.HttpResponse(f"Hello, {name}. This HTTP triggered function executed successfully.")
+        return func.HttpResponse(f"Hello, your predicted churn probability is {prediction:.4f}")       
+        )
     else:
         return func.HttpResponse(
-             "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.",
+             "This HTTP triggered function executed successfully. Pass tenure, monthly, techsupport in the query string or in the request body for a personalized response.",
              status_code=200
         )
