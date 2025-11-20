@@ -22,7 +22,6 @@ def predict(req: func.HttpRequest) -> func.HttpResponse:
 
     if tenure and monthly and techsupport:
         return func.HttpResponse(f"Hello, your predicted churn probability is {prediction:.4f}")       
-        )
     else:
         return func.HttpResponse(
              "This HTTP triggered function executed successfully. Pass tenure, monthly, techsupport in the query string or in the request body for a personalized response.",
